@@ -1,0 +1,118 @@
+Como posso adicionar Conta para pertencer a um cliente -> 
+    IDEIA 1 - { 
+        Como cliente possui um atributo do tipo Conta Corrente eu posso criar uma COntaCorrente e 
+        adicionar-la em cliente como um atributo e depois formatar o 
+        modo de exibição em um toString dentro de cada classe do tipo Conta
+       }
+
+      //método de criar uma nova contacorrente
+       public ContaCorrente criarContaCorrente(){
+        String nome = Banco.listaClientes.get(0).getNome();
+        int numconta = gerarNumConta(0);
+        double saldo = 0.0;
+        ContaCorrente contaCorrente = new ContaCorrente(nome, numconta, saldo);
+        Banco.listaContaCorrente.add(contaCorrente);
+        return contaCorrente;
+    }
+
+
+    public void depositar() {
+        System.out.println("Digite o número da Conta: ");
+        int numconta1 = scan.nextInt();
+        boolean numconta2 = Banco.listaContaCorrente.contains(numconta1);
+        if ( numconta2 == true) {
+            int index = Banco.listaContaCorrente.indexOf(numconta1);
+            ContaCorrente contaCorrente = Banco.listaContaCorrente.get(index);
+            System.out.println("Digite o valor do depósito: ");
+            double valor = scan.nextDouble();
+            double saldo = contaCorrente.getSaldo() + valor;
+            contaCorrente.setSaldo(saldo);
+            Banco.listaContaCorrente.set(index, contaCorrente);
+            System.out.println("Depósito realizado com sucesso!");
+        } if (numconta2 == false) {
+            System.out.println("Conta não encontrada!");    
+        }
+    }
+
+    //o problema aq, é pq o contains não aceita um int, e sim um objeto, então não consigo comparar o numero da conta
+    //com o numero da conta que está na lista de contas correntes
+    IDEIA 2 - {
+        preciso transforma  numconta1 em um objeto para poder verificar se ele existe na lista, 
+        e depois seguir com o cógdio
+    }
+
+    taxa da popança 10%
+    proximo passo estudar interface para aplicar tarifas nas contas
+    depositar em poupanca n funciona 
+    melhorar o sistema de opção
+    imprimir o menu 
+
+    o método de deposito para conta corrente funciona corretamente
+    mas o metodo de deposito em poupaca ainda n funciona, nao estou acessando 
+    listaContaPoupanca, o numero da conta nao funciona com a poupança ainda
+
+    ---------- Problema da conta poupança e deposito resolvido ------------
+
+     - Proximo passo colocar taxa no saque
+     - Será que eu deveria colocar a funçao de deposito em conta poupança separada?
+     - Proximo passo Transferencia ->
+        Lógica atual, do msm jeito que eu posso buscar a conta pra sacar e depositar, podera reaproveitar essa Lógica
+        preciso da conta de origem e destino, e o valor a ser transferido,
+        saber se tem dinheiro suficiente na conta de origem
+        e depois transferir o valor para a conta de destino
+        e depois atualizar o saldo das duas contas.
+
+
+        Consertar o método de transferencia
+        - problema: 
+            condicionais caso tenha saldo Insuficiente e caso conta não encontrada
+
+            Cliente: Gabriel Marques Rosa
+Cpf: 05780895139
+ContaCorrente:
+Titular: Gabriel Marques Rosa
+Numero da Conta: 5910
+Saldo: 0.0
+ContaPoupanca:
+Titular: Gabriel Marques Rosa
+Numero da Conta: 1511
+Saldo: 0.0
+Cliente: Guilherme Silva dos Santos
+Cpf: 05790916115
+ContaCorrente:
+Titular: Guilherme Silva dos Santos
+Numero da Conta: 2010
+Saldo: 0.0
+ContaPoupanca:
+Titular: Guilherme Silva dos Santos
+Numero da Conta: 8214
+Saldo: 0.0
+
+
+Proximo passo, adicionar deposito em poupança e regra para retirada
+transferencia para contapupaça com defeito, não está pedindo o valor nem transferindo
+
+
+if (opcao == 2) {
+    System.out.println("Digite o número da sua conta: ");
+    numcontaOrigem = scan.nextInt();
+    for (ContaCorrente contaOrigem : Banco.listaContaCorrente) {
+        if (numcontaOrigem == contaOrigem.getNumconta()) {
+            System.out.println("\nPara qual Conta Deseja enviar ?");
+            numcontaDestino = scan.nextInt();
+            for (ContaPoupanca contaDestino : Banco.listaContaPoupanca) {
+                if (numcontaDestino == contaDestino.getNumconta()) {
+                    System.out.println("Digite o valor a ser transferido: ");
+                    valorTransferir = scan.nextInt();
+                    if (valorTransferir <= contaOrigem.getSaldo()) {
+                        contaOrigem.setSaldo(contaOrigem.getSaldo() - valorTransferir);
+                        contaDestino.setSaldo(valorTransferir);
+                        System.out.println("Transferência Realizada com Sucesso!");
+                    } else {
+                        System.out.println("Saldo Insuficiente!");
+                    }
+                } 
+            }
+        }
+    }
+}
